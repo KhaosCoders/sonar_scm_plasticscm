@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.khaoscoders.scm.plastic</groupId>
+    <artifactId>plastic</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>sonar-scm-plasticscm-plugin</artifactId>
+  <packaging>sonar-plugin</packaging>
+  <name>SonarQube :: Plugins :: SCM :: PlasticSCM</name>
+  <description>PlasticSCM SCM Provider for SonarQube</description>
+  <url>http://khaos-coders.org</url>
+  
+  <scm>
+    <url>https://github.com/KhaosCoders/sonar_scm_plasticscm</url>
+  </scm>
+
+
+  <properties>
+    <sonar.buildVersion>7.9</sonar.buildVersion>
+    <sonar.pluginName>PlasticSCM</sonar.pluginName>
+    <sonar.pluginClass>org.khaoscoders.plugins.scm.plastic.PlasticPlugin</sonar.pluginClass>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>jsr305</artifactId>
+      <version>3.0.2</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.sonarsource.sonarqube</groupId>
+      <artifactId>sonar-plugin-api</artifactId>
+      <version>${sonar.buildVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- unit tests -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>3.13.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>3.0.0</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
+        <artifactId>sonar-packaging-maven-plugin</artifactId>
+        <version>1.18.0.372</version>
+        <configuration>
+          <pluginName>PlasticSCM</pluginName>
+          <skipDependenciesPackaging>true</skipDependenciesPackaging>
+          <pluginClass>org.khaoscoders.plugins.scm.plastic.PlasticPlugin</pluginClass>
+          <sonarQubeMinVersion>5.6</sonarQubeMinVersion>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-shade-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <shadedArtifactAttached>false</shadedArtifactAttached>
+              <minimizeJar>false</minimizeJar>
+              <createDependencyReducedPom>false</createDependencyReducedPom>
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/LICENSE*</exclude>
+                    <exclude>META-INF/NOTICE*</exclude>
+                    <exclude>META-INF/*.RSA</exclude>
+                    <exclude>META-INF/*.SF</exclude>
+                    <exclude>LICENSE*</exclude>
+                    <exclude>NOTICE*</exclude>
+                  </excludes>
+                </filter>
+              </filters>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
